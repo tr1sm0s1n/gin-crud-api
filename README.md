@@ -15,6 +15,7 @@ Clone the project
 
 ```bash
 git clone https://github.com/DEMYSTIF/gin-test-api.git
+cd gin-test-api
 ```
 
 Go to the project directory
@@ -28,5 +29,3 @@ Start the application
 ```bash
 go run .
 ```
-
-</div>
