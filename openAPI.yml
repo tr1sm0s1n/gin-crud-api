@@ -1,0 +1,179 @@
+openapi: "3.0.2"
+info:
+  title: Gin-Test-API
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8080
+    description: local
+paths:
+  /read:
+    get:
+      summary: reads all certificates
+      operationId: readAllCertificates
+      description: |
+        Allows you to view all the certificates.
+      tags:
+        - read
+      responses:
+        "200":
+          description: Returns all the certificates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/certificate"
+
+  /read/{id}:
+    get:
+      summary: reads one certificate
+      operationId: readOneCertificate
+      description: |
+        By passing a valid ID, you can view the corresponding certificate.
+      tags:
+        - read
+      responses:
+        "200":
+          description: Returns one certificate
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/certificate"
+        "404":
+          description: Returns a message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404"
+      parameters:
+        - name: id
+          description: certificate id
+          in: path
+          required: true
+          schema:
+            type: integer
+  /create:
+    post:
+      summary: creates a new certificate
+      operationId: createCertificate
+      description: Creates a new certificate in the list.
+      tags:
+        - create
+      responses:
+        "201":
+          description: Returns the new certificate
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/certificate"
+        "400":
+          description: Returns a message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/certificate"
+        description: Certificate details
+  /update/{id}:
+    put:
+      summary: updates a certificate
+      operationId: updateCertificate
+      description: Updates an existing certificate in the list.
+      tags:
+        - update
+      responses:
+        "200":
+          description: Returns the updated certificate
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/certificate"
+        "400":
+          description: Returns a message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404"
+      parameters:
+        - name: id
+          description: Certificate id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/certificate"
+        description: Certificate details
+  /delete/{id}:
+    delete:
+      summary: deletes a certificate
+      operationId: deleteCertificate
+      description: Deletes an existing certificate in the list.
+      tags:
+        - update
+      responses:
+        "200":
+          description: Returns the deleted certificate
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/certificate"
+        "400":
+          description: Returns a message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404"
+      parameters:
+        - name: id
+          description: Certificate id
+          in: path
+          required: true
+          schema:
+            type: integer
+components:
+  schemas:
+    400:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Bad Request"
+    404:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Invalid credential"
+    certificate:
+      type: object
+      required:
+        - id
+        - name
+        - course
+        - grade
+        - date
+      properties:
+        id:
+          type: integer
+          example: 36
+        name:
+          type: string
+          example: Abigail
+        course:
+          type: string
+          example: TED
+        grade:
+          type: string
+          example: A
+        date:
+          type: string
+          format: date
+          example: "2047-06-27"
