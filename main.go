@@ -1,9 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"context"
+	"fmt"
 	"net/http"
 	"strconv"
+
+	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/gin-gonic/gin"
 )
 
 type certificate struct {
@@ -83,6 +87,24 @@ func delete(c *gin.Context) {
 }
 
 func main() {
+	cl, err := ethclient.Dial("http://127.0.0.1:8545")
+	if err != nil {
+		panic(err)
+	}
+	chainID, err := cl.ChainID(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	networkID, err := cl.NetworkID(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	
+	printNID := fmt.Sprintf("Network ID: %d", networkID)
+	printCID := fmt.Sprintf("Chain ID: %d", chainID)
+	fmt.Println(printNID)
+	fmt.Println(printCID)
+
 	router := gin.Default()
 	router.GET("/read", readAll)
 	router.GET("/read/:id", readOne)
