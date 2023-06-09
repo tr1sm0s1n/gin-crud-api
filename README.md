@@ -1,6 +1,6 @@
 # Gin-Test-API
 
-Learning Go/Gin through practice.
+Test API demonstrating CRUD operations in Go.
 
 ## 🛠 Built With
 
@@ -15,12 +15,6 @@ Clone the project
 
 ```bash
 git clone https://github.com/DEMYSTIF/gin-test-api.git
-cd gin-test-api
-```
-
-Go to the project directory
-
-```bash
 cd gin-test-api
 ```
 
