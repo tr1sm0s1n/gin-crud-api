@@ -1,22 +1,47 @@
 openapi: "3.0.2"
 info:
-  title: Gin-Test-API
+  title: Gin-CRUD-API
   version: 1.0.0
 servers:
   - url: http://127.0.0.1:8080
     description: local
 paths:
+  /create:
+    post:
+      summary: creates a new certificate
+      operationId: createCertificate
+      description: Creates a new certificate in the list.
+      tags:
+        - create
+      responses:
+        "201":
+          description: Returns the new certificate.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/certificate"
+        "400":
+          description: Returns a message.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/certificate"
+        description: Certificate details
   /read:
     get:
       summary: reads all certificates
       operationId: readAllCertificates
-      description: |
-        Allows you to view all the certificates.
+      description: Allows you to view all the certificates.
       tags:
         - read
       responses:
         "200":
-          description: Returns all the certificates
+          description: Returns all the certificates.
           content:
             application/json:
               schema:
@@ -28,19 +53,24 @@ paths:
     get:
       summary: reads one certificate
       operationId: readOneCertificate
-      description: |
-        By passing a valid ID, you can view the corresponding certificate.
+      description: By passing a valid ID, you can view the corresponding certificate.
       tags:
         - read
       responses:
         "200":
-          description: Returns one certificate
+          description: Returns one certificate.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/certificate"
+        "400":
+          description: Returns a message.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400"
         "404":
-          description: Returns a message
+          description: Returns a message.
           content:
             application/json:
               schema:
@@ -52,32 +82,6 @@ paths:
           required: true
           schema:
             type: integer
-  /create:
-    post:
-      summary: creates a new certificate
-      operationId: createCertificate
-      description: Creates a new certificate in the list.
-      tags:
-        - create
-      responses:
-        "201":
-          description: Returns the new certificate
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/certificate"
-        "400":
-          description: Returns a message
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/400"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/certificate"
-        description: Certificate details
   /update/{id}:
     put:
       summary: updates a certificate
@@ -87,7 +91,13 @@ paths:
         - update
       responses:
         "200":
-          description: Returns the updated certificate
+          description: Returns the updated certificate.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/certificate"
+        "201":
+          description: Returns the new certificate.
           content:
             application/json:
               schema:
@@ -117,16 +127,22 @@ paths:
       operationId: deleteCertificate
       description: Deletes an existing certificate in the list.
       tags:
-        - update
+        - delete
       responses:
         "200":
-          description: Returns the deleted certificate
+          description: Returns the deleted certificate.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/certificate"
         "400":
-          description: Returns a message
+          description: Returns a message.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404"
+        "404":
+          description: Returns a message.
           content:
             application/json:
               schema:
@@ -151,7 +167,7 @@ components:
       properties:
         message:
           type: string
-          example: "Invalid credential"
+          example: "Not Found"
     certificate:
       type: object
       required:
@@ -163,16 +179,16 @@ components:
       properties:
         id:
           type: integer
-          example: 36
+          example: 56
         name:
           type: string
-          example: Abigail
+          example: Lindsey
         course:
           type: string
-          example: TED
+          example: DEB
         grade:
           type: string
-          example: A
+          example: S
         date:
           type: string
           format: date
