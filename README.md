@@ -1,6 +1,6 @@
-# Gin-Test-API
+# Gin-CRUD-API
 
-Test API demonstrating CRUD operations in Go.
+Simple API demonstrating CRUD operations in Go.
 
 ## 🛠 Built With
 
@@ -14,12 +14,24 @@ Test API demonstrating CRUD operations in Go.
 Clone the project
 
 ```bash
-git clone https://github.com/DEMYSTIF/gin-test-api.git
-cd gin-test-api
+git clone https://github.com/DEMYSTIF/gin-crud-api.git
+cd gin-crud-api
 ```
 
 Start the application
 
 ```bash
 go run .
+```
+
+Or create an executable
+
+```bash
+go build -o build/
+```
+
+Run the executable
+
+```bash
+./build/gin-crud-api
 ```
