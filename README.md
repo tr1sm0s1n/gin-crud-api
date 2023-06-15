@@ -1,6 +1,6 @@
 # Gin-CRUD-API
 
-Simple API demonstrating CRUD operations in Go.
+Simple API demonstrating CRUD operations in Go with Gin.
 
 ## 🛠 Built With
 
