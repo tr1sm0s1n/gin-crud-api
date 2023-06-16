@@ -35,3 +35,15 @@ Run the executable
 ```bash
 ./build/gin-crud-api
 ```
+
+For live reload, install Air
+
+```bash
+go install github.com/cosmtrek/air@latest
+```
+
+Run the application with Air
+
+```bash
+air
+```
