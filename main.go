@@ -7,14 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var certificates = []certificate{
+var certificates = []Certificate{
 	{Id: 36, Name: "Abigail", Course: "CED", Grade: "A", Date: "20-1-2044"},
 	{Id: 39, Name: "Leopold", Course: "CBA", Grade: "S", Date: "20-1-2044"},
 	{Id: 42, Name: "Zachary", Course: "CHF", Grade: "B", Date: "20-1-2044"},
 }
 
 func create(c *gin.Context) {
-	var newCertificate certificate
+	var newCertificate Certificate
 	if err := c.BindJSON(&newCertificate); err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "Bad Request"})
 		return
@@ -46,13 +46,14 @@ func readOne(c *gin.Context) {
 	i, exists := getIndex(id)
 	if exists {
 		c.IndentedJSON(http.StatusOK, certificates[i])
+		return
 	}
 
 	c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "Not Found"})
 }
 
 func update(c *gin.Context) {
-	var updated certificate
+	var updated Certificate
 	param := c.Param("id")
 	id, err := strconv.Atoi(param)
 	if err != nil {
@@ -68,7 +69,7 @@ func update(c *gin.Context) {
 	i, exists := getIndex(id)
 	if exists {
 		certificates[i] = updated
-		c.IndentedJSON(http.StatusCreated, updated)
+		c.IndentedJSON(http.StatusOK, updated)
 		return
 	}
 	
