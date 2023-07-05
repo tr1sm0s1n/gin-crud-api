@@ -18,6 +18,12 @@ git clone https://github.com/DEMYSTIF/gin-crud-api.git
 cd gin-crud-api
 ```
 
+Test the application
+
+```bash
+go test
+```
+
 Start the application
 
 ```bash
