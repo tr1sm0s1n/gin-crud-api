@@ -1,7 +1,6 @@
 module github.com/tr1sm0s1n/gin-crud-api
 
-go 1.23
-toolchain go1.24.1
+go 1.24.1
 
 require (
 	github.com/gin-gonic/gin v1.10.0
