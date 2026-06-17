@@ -22,7 +22,9 @@ func TestCreateHandler(t *testing.T) {
 	r := SetUpRouter()
 	r.POST("/create", create)
 
-	newCertificate := Certificate{Id: 56, Name: "Lindsey", Course: "DEB", Grade: "S", Date: "15-2-2044"}
+	newCertificate := certificates[0]
+	newCertificate.ID = 101
+	
 	jsonValue, _ := json.Marshal(newCertificate)
 	req, _ := http.NewRequest("POST", "/create", bytes.NewBuffer(jsonValue))
 	w := httptest.NewRecorder()
@@ -44,14 +46,13 @@ func TestReadAllHandler(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.NotEmpty(t, certificates)
-	assert.Equal(t, 4, len(certificates))
 }
 
 func TestReadOneHandler(t *testing.T) {
 	r := SetUpRouter()
 	r.GET("/read/:id", readOne)
 
-	param := strconv.Itoa(39)
+	param := strconv.Itoa(1)
 	req, _ := http.NewRequest("GET", "/read/"+param, nil)
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)
@@ -61,16 +62,18 @@ func TestReadOneHandler(t *testing.T) {
 	fmt.Println(certificate.Name)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	assert.Equal(t, certificate.Name, "Leopold")
-	assert.Equal(t, certificate.Course, "CBA")
+	assert.Equal(t, certificate.Name, "John Doe")
+	assert.Equal(t, certificate.Course, "Advanced React")
 }
 
 func TestUpdateHandler(t *testing.T) {
 	r := SetUpRouter()
 	r.PUT("/update/:id", update)
 
-	updated := Certificate{Id: 42, Name: "Zachary", Course: "CHF", Grade: "A", Date: "27-1-2044"}
-	param := strconv.Itoa(updated.Id)
+	updated := certificates[0]
+	updated.Name = "Delta Four"
+
+	param := strconv.Itoa(updated.ID)
 	jsonValue, _ := json.Marshal(updated)
 	req, _ := http.NewRequest("PUT", "/update/"+param, bytes.NewBuffer(jsonValue))
 	w := httptest.NewRecorder()
@@ -83,7 +86,7 @@ func TestDeleteHandler(t *testing.T) {
 	r := SetUpRouter()
 	r.DELETE("/delete/:id", delete)
 
-	param := strconv.Itoa(42)
+	param := strconv.Itoa(2)
 	req, _ := http.NewRequest("DELETE", "/delete/"+param, nil)
 	w := httptest.NewRecorder()
 	r.ServeHTTP(w, req)

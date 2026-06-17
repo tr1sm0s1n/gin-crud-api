@@ -1,0 +1,413 @@
+definitions:
+  main.Achievement:
+    properties:
+      badge_url:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  main.Certificate:
+    properties:
+      achievements:
+        items:
+          $ref: '#/definitions/main.Achievement'
+        type: array
+      audit_trail:
+        items:
+          properties:
+            action:
+              type: string
+            ip_address:
+              type: string
+            timestamp:
+              type: string
+            user:
+              type: string
+          type: object
+        type: array
+      categories:
+        items:
+          type: string
+        type: array
+      course:
+        type: string
+      created_at:
+        type: string
+      custom_fields:
+        additionalProperties: {}
+        type: object
+      date:
+        type: string
+      documents:
+        items:
+          $ref: '#/definitions/main.Document'
+        type: array
+      expiry_date:
+        type: string
+      grade:
+        type: string
+      id:
+        type: integer
+      is_expired:
+        type: boolean
+      is_verified:
+        type: boolean
+      issue_date:
+        type: string
+      issuer:
+        $ref: '#/definitions/main.Issuer'
+      links:
+        properties:
+          certificate_url:
+            type: string
+          download_url:
+            type: string
+          verify_url:
+            type: string
+        type: object
+      metadata:
+        additionalProperties:
+          type: string
+        type: object
+      modules:
+        items:
+          $ref: '#/definitions/main.Module'
+        type: array
+      name:
+        type: string
+      percentage:
+        type: number
+      rank:
+        type: integer
+      score:
+        type: number
+      settings:
+        properties:
+          downloadable:
+            type: boolean
+          public_profile:
+            type: boolean
+          show_rank:
+            type: boolean
+          show_score:
+            type: boolean
+        type: object
+      skills:
+        items:
+          type: string
+        type: array
+      statistics:
+        properties:
+          average_score:
+            type: number
+          completion_rate:
+            type: number
+          country_ranking:
+            type: integer
+          global_ranking:
+            type: integer
+          highest_score:
+            type: number
+          total_students:
+            type: integer
+        type: object
+      status:
+        type: string
+      student:
+        $ref: '#/definitions/main.Student'
+      tags:
+        items:
+          type: string
+        type: array
+      updated_at:
+        type: string
+    required:
+    - achievements
+    - categories
+    - course
+    - created_at
+    - date
+    - documents
+    - expiry_date
+    - grade
+    - id
+    - issue_date
+    - issuer
+    - modules
+    - name
+    - percentage
+    - rank
+    - score
+    - skills
+    - status
+    - student
+    - tags
+    - updated_at
+    type: object
+  main.Document:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      size:
+        type: integer
+      type:
+        type: string
+      url:
+        type: string
+    required:
+    - id
+    - name
+    - size
+    - type
+    - url
+    type: object
+  main.Issuer:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      logo:
+        type: string
+      name:
+        type: string
+      website:
+        type: string
+    required:
+    - email
+    - id
+    - name
+    type: object
+  main.Module:
+    properties:
+      completed_at:
+        type: string
+      id:
+        type: integer
+      max_score:
+        type: number
+      name:
+        type: string
+      passed:
+        type: boolean
+      score:
+        type: number
+    required:
+    - completed_at
+    - id
+    - max_score
+    - name
+    - passed
+    - score
+    type: object
+  main.Student:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      interests:
+        items:
+          type: string
+        type: array
+      name:
+        type: string
+      phone:
+        type: string
+    required:
+    - city
+    - country
+    - email
+    - id
+    - interests
+    - name
+    - phone
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  title: Gin-CRUD-API
+  version: "1.0"
+paths:
+  /create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Certificate Data
+        in: body
+        name: certificate
+        required: true
+        schema:
+          $ref: '#/definitions/main.Certificate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.Certificate'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Auth: []
+      summary: Create new certificate
+      tags:
+      - Protected
+  /delete/{id}:
+    delete:
+      parameters:
+      - description: Certificate ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Certificate'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Auth: []
+      summary: Delete an existing certificate
+      tags:
+      - Protected
+  /read:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.Certificate'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Auth: []
+      summary: Read all certificates
+      tags:
+      - Protected
+  /read/{id}:
+    get:
+      parameters:
+      - description: Certificate ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Certificate'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Auth: []
+      summary: Read a single certificate data corresponding to an ID
+      tags:
+      - Protected
+  /update/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Certificate ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Certificate Data
+        in: body
+        name: property
+        required: true
+        schema:
+          $ref: '#/definitions/main.Certificate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Certificate'
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.Certificate'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - Auth: []
+      summary: Update or upsert a certificate
+      tags:
+      - Protected
+schemes:
+- http
+securityDefinitions:
+  Auth:
+    in: header
+    name: X-API-KEY
+    type: apiKey
+swagger: "2.0"
+tags:
+- description: X-API-KEY is required.
+  name: Protected
